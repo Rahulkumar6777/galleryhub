@@ -1,0 +1,20 @@
+{
+  "name": "galleryhub",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Rahulkumar6777/galleryhub#readme",
+  "bugs": {
+    "url": "https://github.com/Rahulkumar6777/galleryhub/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rahulkumar6777/galleryhub.git"
+  },
+  "license": "ISC",
+  "author": "Rahul Kumar",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon server.js"
+  }
+}
