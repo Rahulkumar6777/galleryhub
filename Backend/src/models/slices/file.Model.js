@@ -15,7 +15,7 @@ const fileschema = new mongoose.Schema({
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Catogery"
+        ref: "Category"
     },
     imgUrl: {
         type: {
@@ -36,6 +36,6 @@ const fileschema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-fileschema.index({fileid: 1 , category: true})
+fileschema.index({fileid: 1 , category: 1})
 
 export const File = mongoose.model("File" , fileschema)
