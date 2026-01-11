@@ -39,7 +39,7 @@ adminschema.methods.generateAuthToken = function(){
 }
 
 adminschema.methods.checkpassword = async function (oldpassword) {
-    return bcrypt.compare(oldpassword , this.password)
+    return await bcrypt.compare(oldpassword , this.password)
 }
 
 
