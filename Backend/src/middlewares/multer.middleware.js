@@ -2,6 +2,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import * as crypto from 'crypto'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -14,8 +15,6 @@ if (!fs.existsSync(uploadDir)) {
 const storage = multer.diskStorage({
   destination: async (req, file, cb) => {
     try {
-      
-      
       cb(null, uploadDir);
 
     } catch (error) {
