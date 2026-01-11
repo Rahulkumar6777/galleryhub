@@ -4,7 +4,6 @@ const fileschema = new mongoose.Schema({
     fileid: {
         type: String,
         required: true,
-        unique: true
     },
     filename: {
         type: String,
@@ -36,6 +35,6 @@ const fileschema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-fileschema.index({fileid: 1 , category: 1})
+fileschema.index({ fileid: 1, category: 1 }, { unique: true });
 
-export const File = mongoose.model("File" , fileschema)
+export const File = mongoose.model("File", fileschema)

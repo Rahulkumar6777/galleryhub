@@ -4,10 +4,9 @@ const categorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
     }
 })
 
-categorySchema.index({name: 1})
+categorySchema.index({name: 1} , {unique: true})
 
 export const Category = mongoose.model("Category" , categorySchema)

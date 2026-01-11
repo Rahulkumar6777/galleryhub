@@ -6,7 +6,6 @@ const adminschema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     password: {
@@ -42,5 +41,9 @@ adminschema.methods.generateAuthToken = function(){
 adminschema.methods.checkpassword = async function (oldpassword) {
     return bcrypt.compare(oldpassword , this.password)
 }
+
+
+adminschema.index({ username: 1 }, { unique: true });
+
 
 export const Admin = mongoose.model("Admin", adminschema)
