@@ -42,12 +42,8 @@ export const upload = async (req, res) => {
             urlsMap[url.size] = url.publicUrl;
         }
 
-        const baseNames = urls.map(url => {
-            return url.filename.split('_')[0];
-        });
-
+        
         const resp = await Model.File.create({
-            fileid: baseNames.toString(),
             filename,
             category: categoryId,
             imgUrl: {
