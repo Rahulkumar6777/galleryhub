@@ -14,10 +14,8 @@ const fileschema = new mongoose.Schema({
         type: String
     },
     category: {
-        type: String,
-        enum: [
-            "Abstract", "Portrait", "Landscape", "Street Photography", "Nature", "Wildlife", "Architecture", "Travel", "Fashion", "Food", "Sports", "Music", "Dance", "Digital Art", "Illustration", "Painting", "Sculpture", "Black & White", "Minimalism", "Macro", "Aerial", "Night Photography", "Documentary", "Conceptual", "Fantasy", "Surrealism", "Pop Art", "Cultural", "Historical", "Editorial", "Commercial", "Product", "Event", "Wedding", "Film & Cinematic", "Experimental"
-        ]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Catogery"
     },
     imgUrl: {
         type: {
