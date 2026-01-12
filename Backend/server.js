@@ -15,7 +15,7 @@ const privateCorsOptions = {
     origin: ['https://api-galleryhub.cloudcoderhub.in'],
     methods: ['GET'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization' , 'x-code']
 }
 
 app.use('/api/v1/admin', cors(privateCorsOptions), adminRoutes)
