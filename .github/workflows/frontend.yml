@@ -53,6 +53,6 @@ jobs:
             docker rm galleryhubfrontend || true
             docker run -d --name galleryhubfrontend \
                 --restart always \
-                -p 127.0.0.1:7640:7640 \
+                -p 127.0.0.1:7641:40 \
                 --network vaani-net \
                     ${{ secrets.DOCKER_USERNAME }}/galleryhubfrontend:latest
