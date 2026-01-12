@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const fileschema = new mongoose.Schema({
-    filename: {
+    title: {
         type: String,
         required: true
     },
@@ -47,6 +47,6 @@ const fileschema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-fileschema.index({ category: 1 }, { unique: true });
+fileschema.index({ category: 1 });
 
 export const File = mongoose.model("File", fileschema)
