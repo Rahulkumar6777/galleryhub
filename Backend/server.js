@@ -5,14 +5,14 @@ import adminRoutes from './src/routes/admin.Routes.js'
 import publicRoutes from './src/routes/public.Routes.js'
 
 const corsOption = {
-    origin: ['http://localhost:5173'],
+    origin: ['https://galleryhub.cloudcoderhub.in'],
     methods: ['GET'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
 }
 
 const privateCorsOptions = {
-    origin: ['https://api-galleryhub.cloudcoderhub.in'],
+    origin: ['https://galleryhub.cloudcoderhub.in'],
     methods: ['GET'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization' , 'x-code']

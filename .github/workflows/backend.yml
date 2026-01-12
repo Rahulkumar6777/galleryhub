@@ -1,0 +1,68 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'            
+      - '.github/workflows/backend.yml' 
+
+jobs:
+  # ---- Build job ----
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node (for any pre-build steps if needed)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest ./backend
+
+      - name: DockerHub login (access token)
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Push image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest
+
+  # ---- Deploy job ----
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest
+            docker stop zapnetbackend || true
+            docker rm zapnetbackend || true
+            docker run -d --name zapnetbackend \
+                --restart always \
+                -p 127.0.0.1:7640:7640 \
+                --network vaani-net \
+                -e PORT="${{ secrets.PORT }}" \
+                -e AUTH_TOKEN_SECRET="${{ secrets.AUTH_TOKEN_SECRET }}" \
+                -e AUTH_TOKEN_EXPIRY="${{ secrets.AUTH_TOKEN_EXPIRY }}" \
+                -e NODE_ENV="${{ secrets.NODE_ENV }}" \
+                -e LOCALHOST_URI="${{ secrets.LOCALHOST_URI }}" \
+                -e PRODUCTION_DB_URI="${{ secrets.PRODUCTION_DB_URI }}" \
+                -e DEVLOAD_PRIVATE_KEY="${{ secrets.DEVLOAD_PRIVATE_KEY }}" \
+                -e DEVLOAD_APIKEY="${{ secrets.DEVLOAD_APIKEY }}" \
+                -e P_ID="${{ secrets.P_ID }}" \
+                -e REGISTER_CODE="${{ secrets.REGISTER_CODE }}" \
+                    ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest
