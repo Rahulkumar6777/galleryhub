@@ -12,6 +12,22 @@ const fileschema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category"
     },
+    deleteId: {
+        type: {
+            thumb: {
+                type: String
+            },
+            medium: {
+                type: String
+            },
+            large: {
+                type: String
+            },
+            xl: {
+                type: String
+            }
+        }
+    },
     imgUrl: {
         type: {
             thumb: {

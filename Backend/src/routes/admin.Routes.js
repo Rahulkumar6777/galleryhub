@@ -1,5 +1,5 @@
 import express from "express"
-import { Image } from "../controllers/images/index.js";
+import { Image } from "../controllers/posts/index.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { Auth } from "../controllers/Auth/index.js";
 import { verifyJwt } from "../middlewares/verifyJwt.js";
