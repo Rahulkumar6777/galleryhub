@@ -23,7 +23,7 @@ jobs:
           node-version: '20'
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest ./Backend
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/galleryhubbackend:latest ./Backend
 
       - name: DockerHub login (access token)
         uses: docker/login-action@v2
@@ -32,7 +32,7 @@ jobs:
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
       - name: Push image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/galleryhubbackend:latest
 
   # ---- Deploy job ----
   deploy:
@@ -48,10 +48,10 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-            docker pull ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest
-            docker stop zapnetbackend || true
-            docker rm zapnetbackend || true
-            docker run -d --name zapnetbackend \
+            docker pull ${{ secrets.DOCKER_USERNAME }}/galleryhubbackend:latest
+            docker stop galleryhubbackend || true
+            docker rm galleryhubbackend || true
+            docker run -d --name galleryhubbackend \
                 --restart always \
                 -p 127.0.0.1:7640:7640 \
                 --network vaani-net \
@@ -65,4 +65,4 @@ jobs:
                 -e DEVLOAD_APIKEY="${{ secrets.DEVLOAD_APIKEY }}" \
                 -e P_ID="${{ secrets.P_ID }}" \
                 -e REGISTER_CODE="${{ secrets.REGISTER_CODE }}" \
-                    ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest
+                    ${{ secrets.DOCKER_USERNAME }}/galleryhubbackend:latest
