@@ -3,6 +3,7 @@ import { Image } from "../controllers/posts/index.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { Auth } from "../controllers/Auth/index.js";
 import { verifyJwt } from "../middlewares/verifyJwt.js";
+import { Category } from "../controllers/category/index.js";
 
 const adminRoutes = express.Router()
 
@@ -22,7 +23,8 @@ adminRoutes.post('/upload',
     },
     Image.Post)
 
-adminRoutes.post('/login' , Auth.Login)
+adminRoutes.post('/login', Auth.Login)
+adminRoutes.post('/category', verifyJwt, Category.Create)
 
 
 export default adminRoutes;
