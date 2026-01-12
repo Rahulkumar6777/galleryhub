@@ -25,7 +25,7 @@ adminRoutes.post('/upload',
 
 adminRoutes.post('/login', Auth.Login)
 adminRoutes.post('/category', verifyJwt, Category.Create)
-adminRoutes.post('/register', Auth.Register)
+//adminRoutes.post('/register', Auth.Register)
 
 
 export default adminRoutes;
