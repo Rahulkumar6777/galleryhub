@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const fileschema = new mongoose.Schema({
-    title: {
+    filename: {
         type: String,
         required: true
     },
-    filename: {
+    description: {
         type: String
     },
     category: {
