@@ -5,7 +5,7 @@ const fileschema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
+    filename: {
         type: String
     },
     category: {
