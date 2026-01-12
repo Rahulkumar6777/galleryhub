@@ -2,7 +2,7 @@ import { Model } from "../../../models/index.js";
 
 export const register = async (req, res) => {
     try {
-        const code = req.headers.x-code;
+        const code = req.headers['x-code'];
         const { password , username} = req.body
 
         if(!username || !password){
@@ -27,6 +27,7 @@ export const register = async (req, res) => {
         })
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             error: "internal server Error"
         })
