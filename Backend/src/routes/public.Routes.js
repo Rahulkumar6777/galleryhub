@@ -1,8 +1,8 @@
 import express from "express"
-import { get } from "../controllers/posts/slices/get.controller.js"
+import { Image } from "../controllers/posts/index.js"
 
 const publicRoutes = express.Router()
 
-publicRoutes.get('/post' , get)
+publicRoutes.get('/post' , Image.Get)
 
 export default publicRoutes
