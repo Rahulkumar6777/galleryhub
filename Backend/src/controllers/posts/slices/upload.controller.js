@@ -69,7 +69,7 @@ export const upload = async (req, res) => {
             file: resp
         })
     } catch (error) {
-        fs.unlinkSync(req.file.path)
+        fs.unlinkSync(req?.file?.path)
         console.log(error.message)
         return res.status(500).json({
             error: "Internal server Error"
