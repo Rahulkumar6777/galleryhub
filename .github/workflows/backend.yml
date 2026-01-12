@@ -23,7 +23,7 @@ jobs:
           node-version: '20'
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest ./backend
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/zapnetbackend:latest ./Backend
 
       - name: DockerHub login (access token)
         uses: docker/login-action@v2
