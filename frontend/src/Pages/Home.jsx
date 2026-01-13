@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, ChevronLeft, ChevronRight, X, Download, Grid3x3, Sparkles, Loader2, ZoomIn, Maximize2, Heart } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, X, Download, Grid3x3, Loader2, ZoomIn, Heart } from 'lucide-react';
 import { API_BASE } from '../api/BaseUrl';
 
 export default function GallerHub() {
@@ -16,6 +16,7 @@ export default function GallerHub() {
   const [modalImageLoaded, setModalImageLoaded] = useState(false);
   const [imageQuality, setImageQuality] = useState('xl');
   const [likedImages, setLikedImages] = useState({});
+  const [loadingCategories, setLoadingCategories] = useState(true);
   const imageRefs = useRef({});
   const modalRef = useRef(null);
 
@@ -46,6 +47,7 @@ export default function GallerHub() {
   }, [selectedImage]);
 
   const fetchCategories = async () => {
+    setLoadingCategories(true);
     try {
       const res = await fetch(`${API_BASE}/public/category`);
       const data = await res.json();
@@ -55,6 +57,8 @@ export default function GallerHub() {
       }
     } catch (err) {
       console.error('Error fetching categories:', err);
+    } finally {
+      setLoadingCategories(false);
     }
   };
 
@@ -198,27 +202,40 @@ export default function GallerHub() {
       <div className="relative bg-[#1a1d29]/40 backdrop-blur-sm border-b border-gray-800/30 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-3 overflow-x-auto py-4 custom-scrollbar">
-            {filteredCategories.map((category) => (
-              <button
-                key={category._id}
-                onClick={() => handleCategoryChange(category._id)}
-                className={`relative px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-                  selectedCategory === category._id
-                    ? 'bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 text-white shadow-lg shadow-cyan-500/20 border border-cyan-500/30'
-                    : 'bg-gray-800/30 text-gray-400 hover:text-white hover:bg-gray-800/50 border border-transparent hover:border-gray-700/50'
-                }`}
-              >
-                {selectedCategory === category._id && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-xl blur-md animate-pulse"></div>
-                )}
-                <span className="relative flex items-center gap-2">
-                  {category.name}
+            {loadingCategories ? (
+              [...Array(6)].map((_, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-32 h-11 bg-gradient-to-br from-gray-800/50 to-gray-800/30 rounded-xl animate-pulse border border-gray-700/30"
+                />
+              ))
+            ) : filteredCategories.length > 0 ? (
+              filteredCategories.map((category) => (
+                <button
+                  key={category._id}
+                  onClick={() => handleCategoryChange(category._id)}
+                  className={`relative px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+                    selectedCategory === category._id
+                      ? 'bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 text-white shadow-lg shadow-cyan-500/20 border border-cyan-500/30'
+                      : 'bg-gray-800/30 text-gray-400 hover:text-white hover:bg-gray-800/50 border border-transparent hover:border-gray-700/50'
+                  }`}
+                >
                   {selectedCategory === category._id && (
-                    <span className="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-xl blur-md animate-pulse"></div>
                   )}
-                </span>
-              </button>
-            ))}
+                  <span className="relative flex items-center gap-2">
+                    {category.name}
+                    {selectedCategory === category._id && (
+                      <span className="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></span>
+                    )}
+                  </span>
+                </button>
+              ))
+            ) : (
+              <div className="text-gray-500 text-sm py-2 px-4">
+                No categories found
+              </div>
+            )}
           </div>
         </div>
       </div>
