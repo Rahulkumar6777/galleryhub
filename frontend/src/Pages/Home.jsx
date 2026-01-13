@@ -78,11 +78,31 @@ export default function GallerHub() {
       setLoading(false);
     }
   };
+  
+  const sendImpressionRequest = async (postId) => {
+    try {
+      fetch(`${API_BASE}/public/post/${postId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).catch(error => {
+        console.log('Impression request failed silently:', error);
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
     setPage(1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleImageClick = (post) => { 
+    sendImpressionRequest(post._id);
+    setSelectedImage(post);
   };
 
   const handleDownload = async (post) => {
@@ -270,7 +290,7 @@ export default function GallerHub() {
               {posts.map((post) => (
                 <div
                   key={post._id}
-                  onClick={() => setSelectedImage(post)}
+                  onClick={() => handleImageClick(post)}
                   onMouseEnter={() => setHoveredImage(post._id)}
                   onMouseLeave={() => setHoveredImage(null)}
                   className="group relative aspect-[16/10] bg-gray-900/50 rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/20 border border-gray-800/50 hover:border-cyan-500/30"
@@ -319,7 +339,13 @@ export default function GallerHub() {
                     
                     
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                      <button className="p-2 bg-black/50 backdrop-blur-sm rounded-lg hover:bg-black/70 transition-all">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleImageClick(post);
+                        }}
+                        className="p-2 bg-black/50 backdrop-blur-sm rounded-lg hover:bg-black/70 transition-all"
+                      >
                         <ZoomIn className="w-4 h-4 text-white" />
                       </button>
                       <button 
@@ -435,7 +461,7 @@ export default function GallerHub() {
           
           
           <div className="relative w-full max-w-6xl my-8 z-40">
-            {/* Loading State */}
+            
             {!modalImageLoaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl z-10">
                 <Loader2 className="w-12 h-12 text-cyan-400 animate-spin" />
@@ -463,7 +489,7 @@ export default function GallerHub() {
             
            
             <div className={`mt-6 space-y-4 transition-all duration-500 ${modalImageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              {/* Filename */}
+              
               <h3 className="text-2xl font-bold text-white text-center">
                 {selectedImage.filename}
               </h3>
@@ -606,7 +632,7 @@ export default function GallerHub() {
           animation: gradient 3s ease infinite;
         }
         
-        /* Responsive adjustments */
+       
         @media (max-width: 640px) {
           .grid-cols-1 {
             grid-template-columns: 1fr;

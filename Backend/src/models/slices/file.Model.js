@@ -13,7 +13,8 @@ const fileschema = new mongoose.Schema({
         ref: "Category"
     },
     impression: {
-        type: Number
+        type: Number,
+        default: 0
     },
     deleteId: {
         type: {
