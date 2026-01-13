@@ -18,14 +18,15 @@ export const get = async (req, res) => {
     let filter = {};
     let sort = {};
 
-  
+
     if (categoryId === "Recent") {
-    
+
       sort = { createdAt: -1 };
     }
     else if (categoryId === "Popular") {
-      sort = { impression: -1 };
+      sort = { impression: -1, createdAt: -1 };
     }
+
     else {
       filter.category = categoryId;
       sort = { createdAt: -1 };
