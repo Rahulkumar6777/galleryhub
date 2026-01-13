@@ -22,6 +22,8 @@ export const Delete = async (req, res) => {
             await devload.deleteFile(filename);
         }
 
+        await Model.File.deleteOne({ _id: fileId })
+
         return res.status(200).json({
             message: "File Deleted Success"
         })
