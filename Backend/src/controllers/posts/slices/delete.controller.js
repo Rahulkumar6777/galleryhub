@@ -18,7 +18,7 @@ export const Delete = async (req, res) => {
         for (const key in deleteId) {
             const value = deleteId[key];
             if (value) {
-                const res = await devload.deleteFile(id);
+                const res = await devload.deleteFile(value);
                 console.log(res)
             }
         }
