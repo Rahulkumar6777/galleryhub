@@ -6,6 +6,6 @@ const publicRoutes = express.Router()
 
 publicRoutes.get('/post' , Image.Get)
 publicRoutes.get('/category' , Category.Get)
-publicRoutes.get('/post/:postid' , Image.impression)
+publicRoutes.post('/post/:postid' , Image.impression)
 
 export default publicRoutes
