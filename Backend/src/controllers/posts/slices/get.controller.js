@@ -1,24 +1,42 @@
-import { Model } from "../../../models/index.js"
+import mongoose from "mongoose";
+import { Model } from "../../../models/index.js";
 
 export const get = async (req, res) => {
   try {
-    const categoryId = req.query.categoryId
+    const { categoryId } = req.query;
+
     if (!categoryId) {
       return res.status(400).json({
-        message: "CategoryId is required"
-      })
+        message: "categoryId is required"
+      });
     }
 
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
 
-    const limit = parseInt(req.query.limit) || 10
-    const page = parseInt(req.query.page) || 1
+    const skip = (page - 1) * limit;
 
-    const posts = await Model.File.find({ category: categoryId })
-      .skip((page - 1) * limit)
-      .limit(limit)
+    let filter = {};
+    let sort = { createdAt: -1 };
 
-    const total = await Model.File.countDocuments({ category: categoryId })
-    const totalPages = Math.ceil(total / limit)
+  
+    if (categoryId === "Recent") {
+      sort = { createdAt: -1 };
+    }
+    else if (categoryId === "Recent") {
+      sort = { impression: -1 };
+    }
+    else {
+      filter.category = categoryId;
+    }
+
+    const posts = await Model.File.find(filter)
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Model.File.countDocuments(filter);
+    const totalPages = Math.ceil(total / limit);
 
     return res.status(200).json({
       message: "Success",
@@ -29,12 +47,20 @@ export const get = async (req, res) => {
         limit,
         totalPages
       }
-    })
+    });
 
   } catch (error) {
-    console.log(error)
+
+    if (error instanceof mongoose.Error.CastError) {
+      return res.status(400).json({
+        error: "Invalid categoryId"
+      });
+    }
+
+    console.error(error);
+
     return res.status(500).json({
       error: "Internal Server Error"
-    })
+    });
   }
-}
+};
