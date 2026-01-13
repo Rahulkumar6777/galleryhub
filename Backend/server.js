@@ -13,7 +13,7 @@ const corsOption = {
 
 const privateCorsOptions = {
     origin: ['https://galleryhub.cloudcoderhub.in'],
-    methods: ['GET'],
+    methods: ['GET' , 'DELETE' , 'POST'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization' , 'x-code']
 }
