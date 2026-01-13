@@ -51,6 +51,10 @@ const fileschema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-fileschema.index({ category: 1 });
+
+fileschema.index({ createdAt: -1 });
+fileschema.index({ impression: -1 });
+fileschema.index({ category: 1, createdAt: -1 });
+
 
 export const File = mongoose.model("File", fileschema)
