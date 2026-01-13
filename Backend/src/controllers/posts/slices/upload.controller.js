@@ -9,13 +9,23 @@ export const upload = async (req, res) => {
     try {
         const { categoryId, filename } = req.body;
 
+
+        const file = req.file;
+
+        if (!file) {
+            return res.status(400).json({
+                message: "file is required"
+            })
+        }
+
         if (!categoryId || !filename) {
             fs.unlinkSync(file.path)
             return res.status(400).json({
-                message: "internal server Error"
+                message: "category and filename is required"
             })
         }
-        const file = req.file;
+
+
 
         const formData = new FormData();
         formData.append('file', fs.createReadStream(file.path));
@@ -34,6 +44,7 @@ export const upload = async (req, res) => {
             }
         );
 
+        console.log(response)
         const urls = response.data.urls
 
         const urlsMap = {};
@@ -44,7 +55,7 @@ export const upload = async (req, res) => {
             deleteId[url.size] = url.filename
         }
 
-        
+
         const resp = await Model.File.create({
             filename,
             category: categoryId,
@@ -70,7 +81,7 @@ export const upload = async (req, res) => {
         })
     } catch (error) {
         fs.unlinkSync(req?.file?.path)
-        console.log(error.message)
+        console.log(error)
         return res.status(500).json({
             error: "Internal server Error"
         })
