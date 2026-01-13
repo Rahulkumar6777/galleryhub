@@ -14,13 +14,12 @@ export const Delete = async (req, res) => {
             })
         }
 
-        const deleteId = file.deleteId
-        for (const key in deleteId) {
-            const value = deleteId[key];
-            if (value) {
-                const res = await devload.deleteFile(value);
-                console.log(res)
-            }
+        const deleteId = file.deleteId;
+        const { _id, ...files } = deleteId;
+
+
+        for (const filename of Object.values(files)) {
+            await devload.deleteFile(filename)
         }
 
         await Model.File.deleteOne({ _id: fileId })
