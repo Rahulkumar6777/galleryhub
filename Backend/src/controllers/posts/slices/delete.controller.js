@@ -19,6 +19,7 @@ export const Delete = async (req, res) => {
 
 
         for (const filename of Object.values(files)) {
+            console.log(filename)
             await devload.deleteFile(filename)
         }
 
