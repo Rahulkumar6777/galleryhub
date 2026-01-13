@@ -15,20 +15,28 @@ export const get = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * limit;
 
+    const category = await Model.Category.findById(categoryId).lean();
+
+    if (!category) {
+      return res.status(404).json({
+        message: "Invalid categoryId"
+      });
+    }
+
     let filter = {};
     let sort = {};
 
 
-    if (categoryId === "Recent") {
-
-      sort = { createdAt: -1 };
-    }
-    else if (categoryId === "Popular") {
+    if (category.name === "Popular") {
       sort = { impression: -1, createdAt: -1 };
+      filter = {};
     }
-
+    else if (category.name === "Recent") {
+      sort = { createdAt: -1 };
+      filter = {};
+    }
     else {
-      filter.category = categoryId;
+      filter = { category: categoryId };
       sort = { createdAt: -1 };
     }
 
@@ -52,6 +60,7 @@ export const get = async (req, res) => {
     });
 
   } catch (error) {
+
     if (error instanceof mongoose.Error.CastError) {
       return res.status(400).json({
         error: "Invalid categoryId"
