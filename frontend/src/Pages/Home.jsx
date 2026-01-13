@@ -171,7 +171,7 @@ export default function GallerHub() {
                 <Sparkles className="relative w-8 h-8 text-cyan-400 animate-bounce-slow" />
               </div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
-                GALLERHUB
+                GalleryHub
               </h1>
             </div>
             
