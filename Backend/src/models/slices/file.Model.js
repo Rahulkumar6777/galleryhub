@@ -12,6 +12,9 @@ const fileschema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category"
     },
+    impression: {
+        type: Number
+    },
     deleteId: {
         type: {
             thumb: {
