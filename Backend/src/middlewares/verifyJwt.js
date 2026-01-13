@@ -12,7 +12,6 @@ export const verifyJwt = async (req, res, next) => {
         }
 
         const decoded = jwt.verify(Token, process.env.AUTH_TOKEN_SECRET);
-        console.log(decoded)
 
         const admin = await Model.Admin.findById(decoded._id)
         if (!admin) {

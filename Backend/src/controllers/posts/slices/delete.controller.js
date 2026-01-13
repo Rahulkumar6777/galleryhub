@@ -28,7 +28,7 @@ export const Delete = async (req, res) => {
             message: "File Deleted Success"
         })
     } catch (error) {
-        console.log(error)
+        console.log(error?.message)
         return res.status(500).json({
             error: "Internal server Error"
         })
