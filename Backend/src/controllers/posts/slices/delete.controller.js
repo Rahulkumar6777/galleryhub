@@ -4,7 +4,7 @@ import { Model } from "../../../models/index.js"
 
 export const Delete = async (req, res) => {
     try {
-        const fileId = req.params.fileId
+        const fileId = req.params.fileId;
 
         const devload = new DevLoad(process.env.DEVLOAD_APIKEY);
         const file = await Model.File.findById(fileId);
@@ -18,7 +18,8 @@ export const Delete = async (req, res) => {
         for (const key in deleteId) {
             const value = deleteId[key];
             if (value) {
-                await devload.deleteFile(id)
+                const res = await devload.deleteFile(id);
+                console.log(res)
             }
         }
 
@@ -28,6 +29,7 @@ export const Delete = async (req, res) => {
             message: "File Deleted Success"
         })
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             error: "Internal server Error"
         })
