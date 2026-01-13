@@ -168,7 +168,6 @@ export default function GallerHub() {
             <div className="flex items-center gap-3">
               <div className="relative animate-pulse-slow">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 blur-lg opacity-50 animate-pulse"></div>
-                <Sparkles className="relative w-8 h-8 text-cyan-400 animate-bounce-slow" />
               </div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
                 GalleryHub
