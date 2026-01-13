@@ -3,7 +3,7 @@ import { Model } from "../models/index.js";
 
 export const verifyJwt = async (req, res, next) => {
     try {
-        const Token = req.cookies.Token;
+        const Token = req?.cookies?.Token;
 
         if (!Token) {
             return res.status(403).json({

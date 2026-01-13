@@ -2,7 +2,7 @@ import { Model } from "../../../models/index.js";
 
 export const Login = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password } = req?.body;
 
         if (!username || !password) {
             return res.status(400).json({
