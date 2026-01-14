@@ -275,13 +275,31 @@ export default function GallerHub() {
 
       
       <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        {loading ? (
+        {loadingCategories || loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {[...Array(12)].map((_, i) => (
               <div
                 key={i}
-                className="aspect-[16/10] bg-gradient-to-br from-gray-800/50 to-gray-800/30 rounded-2xl animate-pulse border border-gray-700/30"
-              />
+                className="group relative aspect-[16/10] bg-gradient-to-br from-gray-800/50 to-gray-800/30 rounded-2xl overflow-hidden animate-pulse border border-gray-700/30"
+              >
+                <div className="absolute inset-0 bg-gray-800/30"></div>
+                
+                
+                <div className="absolute top-3 left-3 w-10 h-6 bg-gray-700/50 rounded-lg"></div>
+                <div className="absolute top-3 right-3 w-8 h-8 bg-gray-700/50 rounded-lg"></div>
+                
+                
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-800/80 to-transparent">
+                  <div className="w-3/4 h-4 bg-gray-700/50 rounded mb-2"></div>
+                  <div className="w-1/2 h-3 bg-gray-700/50 rounded"></div>
+                </div>
+                
+                
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex gap-2">
+                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg"></div>
+                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg"></div>
+                </div>
+              </div>
             ))}
           </div>
         ) : posts.length > 0 ? (
