@@ -25,7 +25,7 @@ export const upload = async (req, res) => {
             })
         }
 
-        const cate = Model.Category.findById(categoryId)
+        const cate = await Model.Category.findById(categoryId)
 
         if (!cate) {
             fs.unlinkSync(file.path)
