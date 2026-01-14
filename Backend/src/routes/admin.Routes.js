@@ -25,6 +25,7 @@ adminRoutes.post('/upload',
 
 adminRoutes.post('/login', Auth.Login)
 adminRoutes.post('/category', verifyJwt, Category.Create)
+adminRoutes.post('/category/:categoryId', verifyJwt, Category.Delete)
 adminRoutes.delete('/file/:fileId', verifyJwt, Image.Delete)
 adminRoutes.get('/check', verifyJwt, Auth.check)
 //adminRoutes.post('/register', Auth.Register)
