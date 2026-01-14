@@ -4,6 +4,14 @@ import DevLoad from "devload";
 
 export const deleteCategory = async (req, res) => {
     try {
+
+        const admin = req.admin;
+        if (admin.role !== 'admin') {
+            return res.status(403).json({
+                message: 'Forbidden - Admin role required'
+            })
+        }
+
         const categoryid = req.params.categoryId;
         const devload = new DevLoad(process.env.DEVLOAD_APIKEY);
 
