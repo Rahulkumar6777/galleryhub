@@ -3,7 +3,13 @@ import { Model } from "../../../models/index.js"
 
 export const createCategory = async (req, res) => {
     try {
-        const  name  = req?.body?.name
+        const admin = req.admin;
+        if (admin.role !== 'admin') {
+            return res.status(403).json({
+                message: 'Forbidden - Admin role required'
+            })
+        }
+        const name = req?.body?.name
 
         if (!name) {
             return res.status(400).json({
