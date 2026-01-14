@@ -4,6 +4,12 @@ import { Model } from "../../../models/index.js"
 
 export const Delete = async (req, res) => {
     try {
+        const admin = req.admin;
+        if (admin.role !== 'admin') {
+            return res.status(403).json({
+                message: 'Forbidden - Admin role required'
+            })
+        }
         const fileId = req.params.fileId;
 
         const devload = new DevLoad(process.env.DEVLOAD_APIKEY);

@@ -25,7 +25,19 @@ export const upload = async (req, res) => {
             })
         }
 
+        const cate = Model.Category.findById(categoryId)
 
+        if (!cate) {
+            return res.status(400).json({
+                message: "Invalid Category"
+            })
+        }
+
+        if (cate.name === "Popular" || cate.name === "Recent") {
+            return res.status(403).json({
+                message: "You dont have access to upload in this category"
+            })
+        }
 
         const formData = new FormData();
         formData.append('file', fs.createReadStream(file.path));
